@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileRequest;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -11,24 +13,23 @@ use Laracasts\Flash\Flash;
 class UserController extends Controller
 {
     /**
-     * Show the form for editing the user profile
+     * Show the form for editing the user profile.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function getProfile()
+    public function getProfile(): View
     {
         $data['user'] = Auth::user();
         return view('users.profile',$data);
     }
 
     /**
-     * Update the user profile.
+     * Update the user's profile.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param ProfileRequest $request
+     * @return RedirectResponse
      */
-    public function updateProfile(ProfileRequest $request)
+    public function updateProfile(ProfileRequest $request): RedirectResponse
     {
         DB::beginTransaction();
         try {
